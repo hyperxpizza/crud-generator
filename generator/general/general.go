@@ -11,6 +11,7 @@ import (
 var packages = []string{
 	"github.com/lib/pq",
 	"github.com/gin-gonic/gin",
+	"github.com/joho/godotenv",
 }
 
 //SetUpBoilerplate generates boilerplate for the whole project
