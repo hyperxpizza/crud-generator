@@ -4,7 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
+	"time"
+
+	"github.com/hyperxpizza/crud-generator/templates"
 )
 
 //LoadSQLfile reads provided sql file
@@ -31,7 +35,26 @@ func LoadSQLfile(path string) (string, error) {
 	return string(data), nil
 }
 
-func getStructs(data string) {
-	var structNames []string
+//SetUpDatabaseConnectionTemplate creates database.go file responsible for postgres connection
+func SetUpDatabaseConnectionTemplate(dir, module string) error {
+	log.Println()
 
+	file, err := os.Create(fmt.Sprintf("%s/database/database.go", dir))
+	if err != nil {
+		log.Fatalf("os.Create")
+	}
+
+	defer file.Close()
+
+	err = templates.DatabaseConnectionTemplate.Execute(file, struct {
+		Timestamp time.Time
+	}{
+		Timestamp: time.Now(),
+	})
+	if err != nil {
+		log.Fatalf("databaseConnectionTemplate.Execute failed: %v\n", err)
+		return err
+	}
+
+	return nil
 }

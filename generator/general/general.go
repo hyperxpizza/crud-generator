@@ -8,6 +8,12 @@ import (
 	"log"
 )
 
+var packages = []string{
+	"github.com/lib/pq",
+	"github.com/gin-gonic/gin",
+}
+
+//SetUpBoilerplate generates boilerplate for the whole project
 func SetUpBoilerplate(dir, module string) error {
 	log.Println("Setting up boilerplate...")
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -27,6 +33,18 @@ func SetUpBoilerplate(dir, module string) error {
 	}
 
 	log.Printf("Generated module %s\n", module)
+	log.Printf("Installing packages...")
+	//install all packages
+	for _, v := range packages {
+		log.Printf("Getting %s\n", v)
+		cmd := exec.Command("go", "get", v)
+		cmd.Dir = dir
+		err := cmd.Run()
+		if err != nil {
+			log.Fatalf("installation of package: %s failed: %v\n", v, err)
+			return err
+		}
+	}
 
 	err = setupDirs(dir)
 	if err != nil {
