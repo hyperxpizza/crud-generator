@@ -35,12 +35,13 @@ func LoadSQLfile(path string) (string, error) {
 }
 
 //SetUpDatabaseConnectionTemplate creates database.go file responsible for postgres connection
-func SetUpDatabaseConnectionTemplate(dir, module string) error {
-	log.Println()
+func SetUpDatabaseConnectionTemplate(dir string) error {
+	log.Println("Setting up database.go...")
 
 	file, err := os.Create(fmt.Sprintf("%s/database/database.go", dir))
 	if err != nil {
-		log.Fatalf("os.Create")
+		log.Fatalf("os.Create database.go failed: %v\n", err)
+		return err
 	}
 
 	defer file.Close()
