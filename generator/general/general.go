@@ -58,7 +58,7 @@ func SetUpBoilerplate(dir, module string) error {
 
 func setupDirs(path string) error {
 	log.Println("Setting up directories...")
-	err := os.Mkdir(fmt.Sprintf("%s/database", path), 1)
+	err := os.Mkdir(fmt.Sprintf("%s/database", path), 0755)
 	if err != nil {
 		log.Fatalf("os.Mkdir database failed: %v\n", err)
 		return err
@@ -66,5 +66,17 @@ func setupDirs(path string) error {
 
 	log.Println("Created /database directory")
 
+	err = os.Mkdir(fmt.Sprintf("%s/handlers", path), 0755)
+	if err != nil {
+		log.Fatalf("os.Mkdir handlers failed: %v\n", err)
+		return err
+	}
+
+	log.Println("Created /handlers directory")
+
 	return nil
+}
+
+func SetUpMainTemplate() {
+
 }
