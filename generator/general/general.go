@@ -18,8 +18,16 @@ var packages = []string{
 func SetUpBoilerplate(dir, module string) error {
 	log.Println("Setting up boilerplate...")
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		log.Fatal("provided output directory does not exists")
-		return err
+		if dir == "./generated" {
+			err := os.Mkdir("generated", 0755)
+			if err != nil {
+				log.Fatalf("creating generated directory failed: %v\n", err)
+				return err
+			}
+		} else {
+			log.Fatal("provided output directory does not exists")
+			return err
+		}
 	}
 
 	log.Println("Generating go.mod...")

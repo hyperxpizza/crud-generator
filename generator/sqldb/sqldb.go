@@ -30,7 +30,6 @@ func LoadSQLfile(path string) (string, error) {
 	}
 
 	log.Println("Sql schema loaded successfully!")
-	fmt.Println(string(data))
 
 	return string(data), nil
 }
