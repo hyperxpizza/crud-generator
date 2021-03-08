@@ -58,3 +58,7 @@ func SetUpDatabaseConnectionTemplate(dir string) error {
 
 	return nil
 }
+
+func parseSQL(data string) error {
+	return nil
+}
