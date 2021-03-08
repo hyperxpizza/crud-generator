@@ -56,6 +56,10 @@ func SetUpDatabaseConnectionTemplate(dir string) error {
 		return err
 	}
 
+	log.Println("Created database.go")
+
+	defer file.Close()
+
 	return nil
 }
 

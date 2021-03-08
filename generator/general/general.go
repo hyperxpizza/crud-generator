@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"time"
 
 	"log"
+
+	"github.com/hyperxpizza/crud-generator/templates"
 )
 
 var packages = []string{
@@ -81,6 +84,49 @@ func setupDirs(path string) error {
 	}
 
 	log.Println("Created /handlers directory")
+
+	return nil
+}
+
+func setupDockerFiles(dir string) error {
+	log.Println("Setting up Dockerfile...")
+	dockerfile, err := os.Create(fmt.Sprintf("%s/Dockerfile", dir))
+	if err != nil {
+		log.Printf("os.Create Dockerfile failed: %v\n", err)
+		return err
+	}
+
+	err = templates.DockerfileTemplate.Execute(dockerfile, struct {
+		Timestamp time.Time
+	}{
+		Timestamp: time.Now(),
+	})
+	if err != nil {
+		log.Fatalf("dockerfileTemplate.Execute failed: %v\n", err)
+		return err
+	}
+	defer dockerfile.Close()
+	log.Println("Created Dockerfile")
+
+	log.Println("Setting up docker-compose...")
+	dockerCompose, err := os.Create(fmt.Sprintf("%s/docker-compose.yml", dir))
+	if err != nil {
+		log.Printf("os.Create docker-compose failed: %v\n", err)
+		return err
+	}
+
+	err = templates.DockerComposeTemplate.Execute(dockerCompose, struct {
+		Timestamp time.Time
+	}{
+		Timestamp: time.Now(),
+	})
+	if err != nil {
+		log.Fatalf("dockerComposeTemplate.Execute failed: %v\n", err)
+		return err
+	}
+
+	defer dockerCompose.Close()
+	log.Println("Created docker-compose.yml")
 
 	return nil
 }
