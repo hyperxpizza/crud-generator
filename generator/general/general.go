@@ -64,12 +64,18 @@ func SetUpBoilerplate(dir, module string) error {
 		return err
 	}
 
+	err = setupDockerFiles(dir)
+	if err != nil {
+		log.Fatalf("setupDockerFiles failed: %v\n", err)
+		return err
+	}
+
 	return nil
 }
 
-func setupDirs(path string) error {
+func setupDirs(dir string) error {
 	log.Println("Setting up directories...")
-	err := os.Mkdir(fmt.Sprintf("%s/database", path), 0755)
+	err := os.Mkdir(fmt.Sprintf("%s/database", dir), 0755)
 	if err != nil {
 		log.Fatalf("os.Mkdir database failed: %v\n", err)
 		return err
@@ -77,7 +83,7 @@ func setupDirs(path string) error {
 
 	log.Println("Created /database directory")
 
-	err = os.Mkdir(fmt.Sprintf("%s/handlers", path), 0755)
+	err = os.Mkdir(fmt.Sprintf("%s/handlers", dir), 0755)
 	if err != nil {
 		log.Fatalf("os.Mkdir handlers failed: %v\n", err)
 		return err
@@ -131,6 +137,27 @@ func setupDockerFiles(dir string) error {
 	return nil
 }
 
-func SetUpMainTemplate() {
+func SetUpMainTemplate(dir string, data []string) error {
+	log.Println("Setting up main.go...")
+	file, err := os.Create(fmt.Sprintf("%s/server.go", dir))
+	if err != nil {
+		log.Printf("os.Create server.go failed: %v\n", err)
+		return err
+	}
 
+	err = templates.MainTemplate.Execute(file, struct {
+		Timestamp time.Time
+		Objects   []string
+	}{
+		Timestamp: time.Now(),
+		Objects:   data,
+	})
+	if err != nil {
+		log.Fatalf("mainTemplate.Execute failed: %v\n", err)
+		return err
+	}
+
+	defer file.Close()
+
+	return nil
 }

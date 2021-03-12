@@ -13,7 +13,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 
 	//Postgresql driver
 	_ "github.com/lib/pq"
