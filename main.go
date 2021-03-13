@@ -7,6 +7,7 @@ import (
 	"github.com/hyperxpizza/crud-generator/flags"
 	"github.com/hyperxpizza/crud-generator/generator/general"
 	"github.com/hyperxpizza/crud-generator/generator/sqldb"
+	"github.com/hyperxpizza/crud-generator/parser"
 )
 
 var config flags.Config
@@ -23,7 +24,7 @@ func main() {
 		log.Fatalf("Setting up boilerplate failed: %v", err)
 	}
 
-	sqlData, err := sqldb.LoadSQLfile(config.SchemaPath)
+	sqlData, err := parser.LoadSQLfile(config.SchemaPath)
 	if err != nil {
 		log.Fatal(err)
 	}

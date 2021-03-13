@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func RemoveEmptyLine(s string) (string, error) {
+func RemoveEmptyLines(s string) (string, error) {
 	r, err := regexp.Compile("\n\n")
 	if err != nil {
 		log.Fatalf("regexp.Compile failed: %v\n", err)
