@@ -11,7 +11,8 @@ import (
 	"github.com/hyperxpizza/crud-generator/templates"
 )
 
-var packages = []string{
+//Packages to be installed when setting up the generated repository
+var Packages = []string{
 	"github.com/lib/pq",
 	"github.com/gin-gonic/gin",
 	"github.com/joho/godotenv",
@@ -47,7 +48,7 @@ func SetUpBoilerplate(dir, module string) error {
 	log.Printf("Generated module %s\n", module)
 	log.Printf("Installing packages...")
 	//install all packages
-	for _, v := range packages {
+	for _, v := range Packages {
 		log.Printf("Getting %s\n", v)
 		cmd := exec.Command("go", "get", v)
 		cmd.Dir = dir
