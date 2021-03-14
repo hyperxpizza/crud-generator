@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"strings"
 )
 
 type Query struct {
@@ -36,6 +37,12 @@ func LoadSQLfile(path string) (string, error) {
 	return string(data), nil
 }
 
-func Parse(sql string) (*Query, error) {
-	return nil, nil
+func Parse(sql string) error {
+	//Split tables into a string array
+	s := strings.Split(sql, ";")
+	for _, v := range s {
+
+	}
+
+	return nil
 }

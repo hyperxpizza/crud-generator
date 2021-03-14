@@ -13,6 +13,6 @@ func RemoveEmptyLines(s string) (string, error) {
 		return "", err
 	}
 
-	s1 := r.ReplaceAllString(s, "\n")
+	s1 := r.ReplaceAllString(s, "")
 	return s1, nil
 }
