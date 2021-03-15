@@ -1,18 +1,35 @@
 package helpers
 
-import (
-	"regexp"
+import "strings"
 
-	"log"
-)
+func Between(value, a, b string) string {
+	value = strings.ToLower(value)
+	a = strings.ToLower(a)
+	b = strings.ToLower(b)
 
-func RemoveEmptyLines(s string) (string, error) {
-	r, err := regexp.Compile("\n\n")
-	if err != nil {
-		log.Fatalf("regexp.Compile failed: %v\n", err)
-		return "", err
+	posFirst := strings.Index(value, a)
+	if posFirst == -1 {
+		return ""
 	}
 
-	s1 := r.ReplaceAllString(s, "")
-	return s1, nil
+	posLast := strings.Index(value, b)
+	if posLast == -1 {
+		return ""
+	}
+
+	posFirstAdjusted := posFirst + len(a)
+	if posFirstAdjusted >= posLast {
+		return ""
+	}
+	return value[posFirstAdjusted:posLast]
+}
+
+func CheckIfContains(s string, list []string) string {
+	for _, v := range list {
+		if strings.Contains(s, v) {
+			return v
+		}
+	}
+
+	return ""
 }
